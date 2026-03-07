@@ -29,6 +29,25 @@
     <div class="loader__bar"><div class="loader__fill"></div></div>
   </div>
 
+  <!-- Audio -->
+  <audio id="theme-song" preload="auto" loop>
+    <source src="audio/Queen_Energy_Favorite_1.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Mute Button -->
+  <button id="mute-toggle" class="mute-btn" aria-label="Mute/Unmute music" title="Toggle Music">
+    <span class="mute-icon">💎</span>
+  </button>
+
+  <!-- Music Prompt -->
+  <div id="music-prompt" class="music-prompt hidden">
+    <div class="music-prompt-content">
+      <div class="music-prompt-icon">💎</div>
+      <p>tap to enable the soundtrack</p>
+      <button id="enable-music-btn" class="enable-music-btn">PLAY MUSIC</button>
+    </div>
+  </div>
+
   <!-- Custom Cursor -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-follower" id="cursorFollower"></div>

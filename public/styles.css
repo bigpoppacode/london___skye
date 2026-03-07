@@ -78,6 +78,67 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @keyframes loaderPulse { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } }
 @keyframes loaderFill { to { width: 100%; } }
 
+/* ---------- Mute Button ---------- */
+.mute-btn {
+  position: fixed; top: 20px; right: 20px; z-index: 9998;
+  background: var(--emerald); border: none; border-radius: 50%;
+  width: 52px; height: 52px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  transition: transform 0.3s var(--ease-out), background 0.3s, opacity 0.4s;
+  box-shadow: 0 4px 24px var(--emerald-glow);
+  animation: mutePulse 2.5s ease-in-out infinite;
+  opacity: 0; visibility: hidden;
+}
+.mute-btn.active { opacity: 1; visibility: visible; }
+.mute-btn:hover { transform: scale(1.15) rotate(8deg); background: var(--emerald-light); animation: none; }
+.mute-btn.muted { background: var(--bg-card); border: 1px solid var(--border); box-shadow: none; animation: none; }
+@keyframes mutePulse {
+  0%, 100% { box-shadow: 0 4px 24px var(--emerald-glow); }
+  50% { box-shadow: 0 4px 40px rgba(16, 185, 129, 0.45); }
+}
+
+/* ---------- Music Prompt ---------- */
+.music-prompt {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(8, 8, 10, 0.96);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.music-prompt.hidden { display: none; }
+.music-prompt-content {
+  text-align: center; padding: 48px;
+  animation: musicPromptIn 0.6s var(--ease-out);
+}
+.music-prompt-icon {
+  font-size: 56px; margin-bottom: 24px;
+  animation: loaderPulse 1.5s ease-in-out infinite;
+}
+.music-prompt p {
+  font-family: var(--font-heading); font-size: clamp(16px, 3vw, 22px);
+  font-weight: 400; letter-spacing: 0.15em; text-transform: lowercase;
+  color: var(--text-muted); margin-bottom: 32px;
+}
+.enable-music-btn {
+  background: var(--emerald); color: var(--bg); border: none;
+  padding: 16px 48px; font-family: var(--font-heading);
+  font-size: 15px; font-weight: 600; letter-spacing: 0.12em;
+  border-radius: var(--radius-full); cursor: pointer;
+  transition: all 0.4s var(--ease-out);
+}
+.enable-music-btn:hover {
+  background: var(--emerald-light); transform: translateY(-2px);
+  box-shadow: 0 12px 40px var(--emerald-glow);
+}
+@keyframes musicPromptIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 767px) {
+  .mute-btn { width: 44px; height: 44px; font-size: 18px; top: 16px; right: 16px; }
+}
+
 /* ---------- Custom Cursor ---------- */
 .cursor, .cursor-follower { display: none; }
 @media (hover: hover) and (pointer: fine) {

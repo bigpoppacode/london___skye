@@ -13,7 +13,82 @@
       body.classList.remove('loading');
       initRevealAnimations();
       animateCounters();
+      initMusic();
     }, 2000);
+  });
+
+  /* ---- Music Control ---- */
+  const audio          = document.getElementById('theme-song');
+  const muteBtn        = document.getElementById('mute-toggle');
+  const muteIcon       = muteBtn.querySelector('.mute-icon');
+  const musicPrompt    = document.getElementById('music-prompt');
+  const enableMusicBtn = document.getElementById('enable-music-btn');
+
+  let isMuted = false;
+  let musicStarted = false;
+
+  function updateMuteUI() {
+    if (isMuted) {
+      muteIcon.textContent = '\u{1F507}';
+      muteBtn.classList.add('muted');
+      muteBtn.setAttribute('title', 'Unmute Music');
+    } else {
+      muteIcon.textContent = '\u{1F48E}';
+      muteBtn.classList.remove('muted');
+      muteBtn.setAttribute('title', 'Mute Music');
+    }
+  }
+
+  function startMusic() {
+    if (musicStarted) return;
+    audio.volume = 0.6;
+    audio.muted = isMuted;
+    const p = audio.play();
+    if (p !== undefined) {
+      p.then(() => {
+        musicStarted = true;
+        musicPrompt.classList.add('hidden');
+        muteBtn.classList.add('active');
+      }).catch(() => {});
+    }
+  }
+
+  function initMusic() {
+    muteBtn.classList.add('active');
+    audio.volume = 0.6;
+    const p = audio.play();
+    if (p !== undefined) {
+      p.then(() => { musicStarted = true; })
+       .catch(() => {
+         muteBtn.classList.remove('active');
+         musicPrompt.classList.remove('hidden');
+       });
+    }
+  }
+
+  enableMusicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    startMusic();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!musicStarted && !musicPrompt.classList.contains('hidden') && !muteBtn.contains(e.target)) {
+      startMusic();
+    }
+  });
+
+  muteBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!musicStarted) {
+      isMuted = true;
+      updateMuteUI();
+      startMusic();
+    } else {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      updateMuteUI();
+    }
   });
 
   /* ---- Navigation ---- */
